@@ -1,0 +1,106 @@
+title = "Centralized Gitleaks Config for All Secrets"
+
+[extend]
+useDefault = true  # inherit built-in rules
+
+# Disable noisy rule if needed (optional)
+disabledRules = ["generic-api-key"]
+
+##############################
+# Custom Rules
+##############################
+
+# AWS Access Key
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key ID"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["AWS", "key", "access"]
+keywords = ["AKIA"]
+
+
+
+# AWS Session Token
+[[rules]]
+id = "aws-session-token"
+description = "AWS Session Token"
+regex = '''(ASIA[0-9A-Z]{16})'''
+tags = ["AWS", "session"]
+keywords = ["ASIA"]
+
+# Database Password
+[[rules]]
+id = "db-password"
+description = "Database Password"
+regex = '''(?i)(db_pass|db_password|database_password|dbpwd|dbuser|dbusername)[\s:=]+['"]?([^\s'"]{8,})['"]?'''
+tags = ["DB", "password"]
+keywords = ["password", "db"]
+
+# S3 URL with keys
+[[rules]]
+id = "s3-keys"
+description = "AWS S3 URL with embedded keys"
+regex = '''s3:\/\/[A-Za-z0-9\-_]+:[A-Za-z0-9\-_]+@'''
+tags = ["AWS", "S3", "key"]
+keywords = ["s3"]
+
+# GitHub Token
+[[rules]]
+id = "github-pat"
+description = "GitHub Personal Access Token"
+regex = '''ghp_[0-9a-zA-Z]{36}'''
+tags = ["GitHub", "token"]
+keywords = ["ghp"]
+
+# GitHub Actions Token
+[[rules]]
+id = "github-actions-token"
+description = "GitHub Actions Token"
+regex = '''github_pat_[0-9a-zA-Z_]{82}'''
+tags = ["GitHub", "token"]
+keywords = ["github_pat"]
+
+
+
+# Google API Key
+[[rules]]
+id = "google-api-key"
+description = "Google API Key"
+regex = '''AIza[0-9A-Za-z\\-_]{35}'''
+tags = ["Google", "API", "key"]
+keywords = ["AIza"]
+
+# Google OAuth
+[[rules]]
+id = "google-oauth"
+description = "Google OAuth ID"
+regex = '''[0-9]+-[0-9A-Za-z_]{32}\.apps\.googleusercontent\.com'''
+tags = ["Google", "OAuth"]
+keywords = ["googleusercontent"]
+
+# Azure Storage Key
+[[rules]]
+id = "azure-storage-key"
+description = "Azure Storage Account Key"
+regex = '''(?i)([A-Za-z0-9+\/]{88})'''
+tags = ["Azure", "storage", "key"]
+
+# JWT
+[[rules]]
+id = "jwt"
+description = "JSON Web Token (JWT)"
+regex = '''eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}'''
+tags = ["JWT", "auth", "token"]
+keywords = ["eyJ"]
+
+##############################
+# Global Allowlist (to avoid noise)
+##############################
+
+[[allowlists]]
+description = "Ignore non-sensitive files"
+paths = [
+  '''.*\.(jpg|gif|png|pdf|doc|docx|xlsx|svg)$''',
+  '''node_modules/.*''',
+  '''tests?/.*'''
+]
