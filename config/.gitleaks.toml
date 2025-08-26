@@ -18,7 +18,13 @@ regex = '''AKIA[0-9A-Z]{16}'''
 tags = ["AWS", "key", "access"]
 keywords = ["AKIA"]
 
-
+# ACCA Context-specific credential
+[[rules]]
+id = "acca-credential"
+description = "ACCA Context-Specific Credential"
+regex = '''ACCA[0-9A-Z]{16}'''
+tags = ["ACCA", "credential", "secret"]
+keywords = ["ACCA"]
 
 # AWS Session Token
 [[rules]]
